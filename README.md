@@ -1,34 +1,46 @@
-This is a [Next.js](https://nextjs.org/) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+# Twitter Clone
 
-## Getting Started
+## The basic installs:
 
-First, run the development server:
-
-```bash
-npm run dev
-# or
-yarn dev
+1. Setup the app: npx create-next-app@latest twitter-clone
+2. Add the jsconfig.json file as we have done elsewhere
+3. Install tailwind: npm install -D tailwindcss postcss autoprefixer
+4. Init tailwind: npx tailwindcss init -p (which generates tailwind.config.js and postcss.config.js).
+5. Configure tailwind.config.js:
 ```
+    module.exports = {
+    content: [
+        "./pages/**/*.{js,ts,jsx,tsx}",
+        "./components/**/*.{js,ts,jsx,tsx}",
+    ],
+    theme: {
+        extend: {},
+    },
+    plugins: [],
+    }
+```
+6. Add the tailwind modules to styles/global.css (also remove the Home.module.css):
+```
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+```
+7. Create the PostgreSQL database on railway.
+8. Install Prisma and then run init:
+```
+npm install -D prisma
+npx prisma init
+```
+9. In the .env file, add the connection URL to the railway PostreSQL database.  Make sure the .env file is added to .gitignore.
+10. Create a lib/prisma.js file with the following content:
+```
+import { PrismaClient } from '@prisma/client'
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+let global = {}
 
-You can start editing the page by modifying `pages/index.js`. The page auto-updates as you edit the file.
+const prisma = global.prisma || new PrismaClient()
 
-[API routes](https://nextjs.org/docs/api-routes/introduction) can be accessed on [http://localhost:3000/api/hello](http://localhost:3000/api/hello). This endpoint can be edited in `pages/api/hello.js`.
+if (process.env.NODE_ENV === 'development') global.prisma = prisma
 
-The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
-
-## Learn More
-
-To learn more about Next.js, take a look at the following resources:
-
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js/) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/deployment) for more details.
+export default prisma
+```
