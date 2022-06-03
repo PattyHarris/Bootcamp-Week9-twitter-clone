@@ -152,3 +152,33 @@ At this point, if you refresh the page, it will momentarily show that you are NO
 ## Create a Tweet Form
 
 Most of this is explanatory by looking at the diffs....
+
+## Show A Tweet List
+
+Most of this is explanatory as well.
+
+1. Bit of JS to remember: in Tweets.js, the 'mapping' code is currently:
+
+```
+  return (
+    <>
+      {tweets.map((tweet, index) => (
+        <Tweet key={index} tweet={tweet} />
+      ))}
+    </>
+  );
+```
+
+Notice the usage of '=> ()' If you use '{}' instead, recall that you need to do an explicit return - using '()' has an implicit return:
+
+```
+  return (
+    <>
+      {tweets.map((tweet, index) => {
+        return <Tweet key={index} tweet={tweet} />
+      })}
+    </>
+  );
+```
+
+2. We made use of the Next.js getServerSideProps. This works in conjunction with the data.js file - this pattern will be repeated in our other projects.
