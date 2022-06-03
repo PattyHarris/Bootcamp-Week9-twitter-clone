@@ -1,3 +1,3 @@
-export default function Tweets({ tweet }) {
+export default function Tweet({ tweet }) {
   return <p>{tweet.content}</p>;
 }
