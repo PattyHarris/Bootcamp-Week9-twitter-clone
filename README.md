@@ -182,3 +182,7 @@ Notice the usage of '=> ()' If you use '{}' instead, recall that you need to do 
 ```
 
 2. We made use of the Next.js getServerSideProps. This works in conjunction with the data.js file - this pattern will be repeated in our other projects.
+
+# Clear the window after clicking the Tweet button.
+
+Main thing here is that we need to add an 'await' on the 'fetch' - otherwise, the "reload" clears the fetch call before we can use it...
