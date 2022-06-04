@@ -200,3 +200,19 @@ npm install javascript-time-ago
 4. Add username capability (see setup.js in pages and pages/api)
 5. In home.js, if the user isn't logged in, show the "setup" form.
 6. Left as an exercise to check whether the username already exists....
+
+## Create fake users
+
+1. To create the fake data, we'll use a library @faker-js/faker. Ideally, this would be installed for development only. Flavio has a blog on how to hide the form: https://flaviocopes.com/nextjs-show-something-only-in-dev/
+
+```
+npm install @faker-js/faker --save-dev
+```
+
+2. We'll create a form in Utils that will allow us to clean the database, create fake user's and their tweets, and generate a single tweet.
+3. In pages, add a Utils.js and likewise a api handler api/Utils.js To view the page:
+
+```
+https://localhost:3000/utils
+```
+4. The 'generate_users_and_tweets' task generates 5 users and creates a single tweet for each to of them.
