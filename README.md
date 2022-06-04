@@ -183,6 +183,20 @@ Notice the usage of '=> ()' If you use '{}' instead, recall that you need to do 
 
 2. We made use of the Next.js getServerSideProps. This works in conjunction with the data.js file - this pattern will be repeated in our other projects.
 
-# Clear the window after clicking the Tweet button.
+## Clear the window after clicking the Tweet button.
 
 Main thing here is that we need to add an 'await' on the 'fetch' - otherwise, the "reload" clears the fetch call before we can use it...
+
+## Show more tweet data
+
+1. To improve the formatting, install javascript-time-ago (https://www.npmjs.com/package/javascript-time-ago) - see this library for good documentation.
+
+```
+npm install javascript-time-ago
+```
+
+2. Add a file in 'lib', lib/timeago.js where we initialize our locale. We can then use the library in the Tweet output.
+3. To add the author, adjust the "fetch" function to include the author - see data.js.
+4. Add username capability (see setup.js in pages and pages/api)
+5. In home.js, if the user isn't logged in, show the "setup" form.
+6. Left as an exercise to check whether the username already exists....
