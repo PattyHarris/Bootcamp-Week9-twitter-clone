@@ -43,10 +43,18 @@ export default async function handler(req, res) {
     let count = 0;
 
     // Create 5 new users.
-    while (count < 5) {
+    let fakeNames = [];
+    while (count < 2) {
+      fakeNames[count] = faker.internet.userName().toLowerCase();
+      count++;
+    }
+
+    count = 0;
+
+    while (count < 2) {
       await prisma.user.create({
         data: {
-          name: faker.internet.userName().toLowerCase(),
+          name: fakeNames[count],
           email: faker.internet.email().toLowerCase(),
           image: faker.internet.avatar(),
         },
@@ -55,7 +63,13 @@ export default async function handler(req, res) {
     }
 
     // Create 1 tweet for each user.
-    const users = await prisma.user.findMany({});
+    const users = await prisma.user.findMany({
+      where: {
+        name: {
+          in: fakeNames,
+        },
+      },
+    });
 
     users.forEach(async (user) => {
       await prisma.tweet.create({
