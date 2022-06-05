@@ -215,4 +215,43 @@ npm install @faker-js/faker --save-dev
 ```
 https://localhost:3000/utils
 ```
+
 4. The 'generate_users_and_tweets' task generates 5 users and creates a single tweet for each to of them.
+
+## Pretty the Tweet Display
+
+1. Add the cloudfare-ipsfs.com domain to the list of whitelisted image domains - in next.config.js:
+
+```
+module.exports = {
+  reactStrictMode: true,
+  images: {
+    domains: ['cloudflare-ipfs.com', 'localhost'],
+  },
+}
+```
+
+2. Import the "Image" component from Next.js and use that to display the image in the Tweet component.
+
+## Profile Page for each User
+
+1. If the username is 'Flavio', then the profile page will be http://localhost:3000/flavio. Create a page 'pages/[name].js':
+
+```
+export default function UserProfile({ name }) {
+  return <p>User profile of {name}</p>
+}
+
+export async function getServerSideProps({ params }) {
+  return {
+    props: {
+      name: params.name,
+    },
+  }
+}
+```
+
+With this initial setup, any page not matching 'utils' or 'home' will match a user profile, even if the user doesn't exist. That will be fixed later? as a exercise for the reader??
+
+2. Addition of 'getUserTweets' in lib/data.js.
+3. The profile page is accessed by clicking on the tweet from the tweets page. In the Tweet component, a "link" is added using the tweet author name.
