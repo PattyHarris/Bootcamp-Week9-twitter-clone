@@ -265,7 +265,12 @@ With this initial setup, any page not matching 'utils' or 'home' will match a us
 ## Improve the Home Page
 
 1. Add a new page, 'pages/index.js' that is shown when the user is not logged in.
-2. This tutorial is confusing since the verbiage doesn't match what we're working with. For example, 
-   - the current HTML will error since the '<h2>' is nested inside a '<p>' => need to make the outer '<p>' a '<div>'. 
+2. This tutorial is confusing since the verbiage doesn't match what we're working with. For example,
+   - the current HTML will error since the '<h2>' is nested inside a '<p>' => need to make the outer '<p>' a '<div>'.
    - the current component in the 'index.js' is called 'Home', not 'Welcome'.
    - the change to getTweets is to add a 'take' parameter - it really does need to be called 'take' for prisma to work.
+
+## Allow the User to Delete their own Tweets
+
+1. In 'pages/[name]/status/[id].js' we'll show a 'delete' link if the user is logged in and the user is the author of the tweet.
+2. Implement DELETE in 'api/tweet.js'.
