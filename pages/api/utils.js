@@ -3,14 +3,7 @@ import { faker } from "@faker-js/faker";
 import { getSession } from "next-auth/react";
 
 export default async function handler(req, res) {
-  const session = await getSession(req);
-
-  // This isn't working entirely since the session coming in here is
-  // null....
-  if (!session) {
-    console.log("session is null");
-    // return res.end();
-  }
+  const session = await getSession({ req });
 
   if (req.method !== "POST") {
     return res.end();
@@ -18,15 +11,13 @@ export default async function handler(req, res) {
 
   if (req.body.task === "clean_database") {
     await prisma.tweet.deleteMany({
-      // Commented out for now since there's a bug here
-      // - session is null...
-      //   where: {
-      //     NOT: {
-      //       authorId: {
-      //         in: [session.user.id],
-      //       },
-      //     },
-      //   },
+      where: {
+        NOT: {
+          authorId: {
+            in: [session.user.id],
+          },
+        },
+      },
     });
     await prisma.user.deleteMany({
       where: {
