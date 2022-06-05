@@ -255,3 +255,9 @@ With this initial setup, any page not matching 'utils' or 'home' will match a us
 
 2. Addition of 'getUserTweets' in lib/data.js.
 3. The profile page is accessed by clicking on the tweet from the tweets page. In the Tweet component, a "link" is added using the tweet author name.
+
+## Create a Single Tweet View
+
+1. A tweet will be available in the URL '/<author name>/status/<tweet id>'.
+2. Create a new folders and a page for pages/[name]/status/[id].js'.
+3. Link the tweet using the new dynamic URL in the 'Tweet' component. This makes the timestamp a link. I would think you'd want to make the tweet itself as part of the link...
