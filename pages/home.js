@@ -1,4 +1,4 @@
-import { useSession } from "next-auth/react";
+import { useSession, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 
 import NewTweet from "components/NewTweet";
@@ -31,6 +31,15 @@ export default function Home({ tweets }) {
 
   return (
     <>
+      <button
+        className="underline"
+        onClick={() => {
+          signOut();
+          router.push("/");
+        }}
+      >
+        Logout
+      </button>
       <NewTweet />
       <Tweets tweets={tweets} />
     </>

@@ -261,3 +261,11 @@ With this initial setup, any page not matching 'utils' or 'home' will match a us
 1. A tweet will be available in the URL '/<author name>/status/<tweet id>'.
 2. Create a new folders and a page for pages/[name]/status/[id].js'.
 3. Link the tweet using the new dynamic URL in the 'Tweet' component. This makes the timestamp a link. I would think you'd want to make the tweet itself as part of the link...
+
+## Improve the Home Page
+
+1. Add a new page, 'pages/index.js' that is shown when the user is not logged in.
+2. This tutorial is confusing since the verbiage doesn't match what we're working with. For example, 
+   - the current HTML will error since the '<h2>' is nested inside a '<p>' => need to make the outer '<p>' a '<div>'. 
+   - the current component in the 'index.js' is called 'Home', not 'Welcome'.
+   - the change to getTweets is to add a 'take' parameter - it really does need to be called 'take' for prisma to work.
