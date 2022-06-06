@@ -1,14 +1,22 @@
 import Tweet from "components/Tweet";
-import { getTweet } from "lib/data.js";
+import Tweets from "components/Tweets";
+import { getTweet, getReplies } from "lib/data.js";
 import prisma from "lib/prisma";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-export default function SingleTweet({ tweet }) {
+import NewReply from "components/NewReply";
+
+export default function SingleTweet({ tweet, replies }) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
+  // This bit here is supposed to prevent people from manually entering the URL of a reply:
+  if (typeof window !== "undefined" && tweet.parent) {
+    router.push(`/${tweet.author.name}/status/${tweet.parent}`);
+  }
+  
   return (
     <div>
       <Tweet tweet={tweet} />
@@ -41,6 +49,8 @@ export default function SingleTweet({ tweet }) {
           </a>
         </div>
       )}
+      <NewReply tweet={tweet} />
+      <Tweets tweets={replies} nolink={true} />
     </div>
   );
 }
@@ -49,9 +59,13 @@ export async function getServerSideProps({ params }) {
   let tweet = await getTweet(params.id, prisma);
   tweet = JSON.parse(JSON.stringify(tweet));
 
+  let replies = await getReplies(params.id, prisma);
+  replies = JSON.parse(JSON.stringify(replies));
+
   return {
     props: {
       tweet,
+      replies,
     },
   };
 }

@@ -274,3 +274,55 @@ With this initial setup, any page not matching 'utils' or 'home' will match a us
 
 1. In 'pages/[name]/status/[id].js' we'll show a 'delete' link if the user is logged in and the user is the author of the tweet.
 2. Implement DELETE in 'api/tweet.js'.
+
+## Allow the User to Reply to Tweets and Show the Replies
+
+1. To keep things simple, the user can't reply to a reply. And, the reply is not shown in its own page (as with a single tweet).
+2. New component, 'NewReply.js' added to handle replies.
+3. The new form is imported in 'pages/[user]/status/[id].js'.
+4. In 'pages/api/tweet.js', in the POST request handler, also take care about the parent - this sets the parent column corresponding to the id of the tweet you’re replying to.
+
+```
+await prisma.tweet.create({
+  data: {
+    content: req.body.content,
+    parent: req.body.parent || null,
+    author: {
+      connect: { id: user.id },
+    },
+  },
+})
+```
+
+5. Show the replies in 'lib/data.js by adding a 'getReplies()' method.
+6. In 'pages/[user]/status/[id].js', import the 'getReplies()' method from lib/data. Get the replies in getServerSideProps and pass them as props to the component. Finally show them using the Tweets component we already created and used in various places.
+7. Fix the replies so that they have their own URL - this is done using the addition of a 'nolink' prop to the Tweet.js component. The prop is passed down from '[id].js' and 'Tweets.js'.
+8. This next bit is confusing: "But people could still go manually to a URL that points to a reply tweet.
+   So we’re going to deny showing the content if the tweet is a reply. We’ll point to the parent instead." In 'pages/[user]/status/[id].js':
+
+```
+//...
+
+export default function SingleTweet({ tweet, replies }) {
+  const { data: session, status } = useSession()
+  const router = useRouter()
+
+  if (typeof window !== 'undefined' && tweet.parent) {
+    router.push(`/${tweet.author.name}/status/${tweet.parent}`)
+  }
+
+  //...
+```
+
+The check for 'typeof window !== 'undefined'' is needed since router code has to run on the client.
+
+9. To make sure that replies only appear on the single tweet view, in 'data.js', add 'parent: null' to the where clauses to the findMany() calls in 'getTweets' and 'getUserTweets'.
+
+## Load more Tweets
+
+1. Using cursor-based pagination, meaning Prisma will return take elements starting from the element with id equal to the one we pass in 'cursor'. In 'getTweets', we add an addition parameter, 'cursor'. Along with 'cursor', 'skip' is added - see the documentation for 'skip'.
+2. Add a LoadMore component, which takes a list of tweets as a prop - uses the last tweet ID as input to the fetch. 'LoadMore' is added to 'home.js' as well.
+3. Implement the GET /api/tweets API call in the file 'pages/api/tweets.js' (new file).
+4. There's some complication around limiting the number of tweets (done on the client) when the tweets are setup on the server. This is resolved using a combination of 'getServerSideProps' and the 'useState' hook (in home.js).
+5. Once the above is resolved, we now have an issue when a new tweet is added - the page is reloaded and we're back to 2 tweets again. To fix this, NewTweet will update the list of tweets currently displayed by the Home component - meaning, if the current display is showing 3 tweets, it will now show 4 tweets, with the new Tweet listed first. The 'create new tweet' api call needs to fill out the data for the new tweet, so the author information has to be fetched.
+6.

@@ -1,6 +1,6 @@
 import Tweet from "components/Tweet";
 
-export default function Tweets({ tweets }) {
+export default function Tweets({ tweets, nolink }) {
   if (!tweets) {
     return null;
   }
@@ -8,7 +8,7 @@ export default function Tweets({ tweets }) {
   return (
     <>
       {tweets.map((tweet, index) => (
-        <Tweet key={index} tweet={tweet} />
+        <Tweet key={index} tweet={tweet} nolink={nolink} />
       ))}
     </>
   );

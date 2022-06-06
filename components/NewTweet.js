@@ -2,8 +2,8 @@ import { useState } from "react";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 
-export default function NewTweet() {
-  const [content, setContent]  = useState("");
+export default function NewTweet({ tweets, setTweets }) {
+  const [content, setContent] = useState("");
   const { data: session } = useSession();
 
   const router = useRouter();
@@ -23,18 +23,22 @@ export default function NewTweet() {
           return;
         }
 
-        await fetch('/api/tweet', {
-            body: JSON.stringify({
-                content,
-            }),
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            method: 'POST',
-        })
+        const res = await fetch("/api/tweet", {
+          body: JSON.stringify({
+            content,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+          method: "POST",
+        });
 
-        // Reload the window to clear the newly entered tweet.
-        router.reload(window.location.pathname);
+        const tweet = await res.json();
+        setTweets([tweet, ...tweets]);
+
+        // Reload the window to clear the newly entered tweet.  No longer used since we
+        // added a reload capability.
+        // router.reload(window.location.pathname);
       }}
     >
       <div className="flex">

@@ -22,15 +22,26 @@ export default async function handler(req, res) {
   }
 
   if (req.method === "POST") {
-    await prisma.tweet.create({
+    const tweet = await prisma.tweet.create({
       data: {
         content: req.body.content,
+        parent: req.body.parent || null,
         author: {
           connect: { id: user.id },
         },
       },
     });
-    res.end();
+
+    const tweetWithAuthorData = await prisma.tweet.findUnique({
+      where: {
+        id: tweet.id,
+      },
+      include: {
+        author: true,
+      },
+    });
+
+    res.json(tweetWithAuthorData);
     return;
   }
 

@@ -24,8 +24,8 @@ export default function Index({ tweets }) {
       <div className="text-center p-4 border m-4">
         <h2 className="mb-10">Join the conversation!</h2>
         <Link href="/api/auth/signin">
-          <a className="border px-8 py-2 mt-5 font-bold rounded-full color-accent-contrast bg-color-accent hover:bg-color-accent-hover-darker">
-            Login
+          <a className="px-8 py-2 mt-5 font-medium rounded-full color-accent-contrast bg-color-accent hover:bg-color-accent-hover-darker">
+            Sign In
           </a>
         </Link>
       </div>
