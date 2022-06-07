@@ -12,9 +12,11 @@ export default function SingleTweet({ tweet, replies }) {
   const { data: session, status } = useSession();
   const router = useRouter();
 
-  // This bit here is supposed to prevent people from manually entering the URL of a reply:
+  // This bit here is supposed to prevent people from manually entering the URL of a reply.
+  // 'parent_data' added to fix a bug to ensure we're returning the correct author name 
+  // for a tweet.
   if (typeof window !== "undefined" && tweet.parent) {
-    router.push(`/${tweet.author.name}/status/${tweet.parent}`);
+    router.push(`/${tweet.parent_data.author.name}/status/${tweet.parent}`);
   }
   
   return (

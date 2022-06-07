@@ -9,15 +9,13 @@ export default function Tweet({ tweet, nolink }) {
         <div className="flex-shrink-0 block group">
           <div className="flex items-center">
             <div>
-              {tweet.author.image && (
-                <Image
-                  className="w-64 h-64 rounded-full"
-                  src={tweet.author.image}
-                  alt=""
-                  width="40"
-                  height="40"
-                />
-              )}
+              <Image
+                className="w-64 h-64 rounded-full"
+                src={tweet.author.image ? tweet.author.image : "data:,"}
+                alt=""
+                width="40"
+                height="40"
+              />
             </div>
             <div className="ml-3 -mt-6">
               <p className="">

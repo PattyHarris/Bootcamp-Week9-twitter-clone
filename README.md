@@ -325,4 +325,5 @@ The check for 'typeof window !== 'undefined'' is needed since router code has to
 3. Implement the GET /api/tweets API call in the file 'pages/api/tweets.js' (new file).
 4. There's some complication around limiting the number of tweets (done on the client) when the tweets are setup on the server. This is resolved using a combination of 'getServerSideProps' and the 'useState' hook (in home.js).
 5. Once the above is resolved, we now have an issue when a new tweet is added - the page is reloaded and we're back to 2 tweets again. To fix this, NewTweet will update the list of tweets currently displayed by the Home component - meaning, if the current display is showing 3 tweets, it will now show 4 tweets, with the new Tweet listed first.
-6. Bug fixed where the Tweet text box was not cleared - addition of setContent('') and value={content} ...
+6. Bug fixed where the Tweet text box was not cleared - addition of setContent('') and value={content}.
+7. Last enhancement before moving on - if there's no image, show a blank space.
