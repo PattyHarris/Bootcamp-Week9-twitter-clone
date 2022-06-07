@@ -35,6 +35,7 @@ export default function NewTweet({ tweets, setTweets }) {
 
         const tweet = await res.json();
         setTweets([tweet, ...tweets]);
+        setContent("");
 
         // Reload the window to clear the newly entered tweet.  No longer used since we
         // added a reload capability.
@@ -48,6 +49,7 @@ export default function NewTweet({ tweets, setTweets }) {
             rows={2}
             cols={50}
             placeholder="What's happening?"
+            value={content}
             name="content"
             onChange={(event) => setContent(event.target.value)}
           />
